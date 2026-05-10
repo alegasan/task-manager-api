@@ -6,16 +6,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Http\Resources\UserResource;
+use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Requests\Auth\LoginRequest;
 
 class AuthController extends Controller
 {
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
-        $validated = $request->validate([
-            'name'     => 'required|string|max:255',
-            'email'    => 'required|email|unique:users',
-            'password' => 'required|min:8|confirmed',
-        ]);
+
+        $validated = $request->validated();
 
         $user  = User::create([
             'name'     => $validated['name'],
@@ -31,14 +30,11 @@ class AuthController extends Controller
         ], 201);
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $request->validate([
-            'email'    => 'required|email',
-            'password' => 'required',
-        ]);
+        $validated = $request->validated();
 
-        if (!Auth::attempt($request->only('email', 'password'))) {
+        if (!Auth::attempt($validated)) {
             return response()->json([
                 'success' => false,
                 'message' => 'Invalid credentials',
