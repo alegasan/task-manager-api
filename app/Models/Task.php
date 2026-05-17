@@ -31,7 +31,7 @@ class Task extends Model
             return $query;
         }
 
-        return $query->where(function($q) {
+        return $query->where(function($q) use ($search) {
             $q->where('title', 'like', "%{$search}%")
               ->orWhere('description', 'like', "%{$search}%");
         });

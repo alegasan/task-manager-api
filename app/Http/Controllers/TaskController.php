@@ -7,14 +7,17 @@ use App\Http\Requests\Task\TaskRequest;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class TaskController extends Controller
 {
+    use AuthorizesRequests;
+
     public function index(IndexTaskRequest $request)
     {
         $validated = $request->validated();
 
-        $perPage = $validated['per_page'] ?? 10;
+        $perPage = $validated['per_page'] ?? 5;
         $search = $validated['search'] ?? null;
         $status = $validated['status'] ?? null;
         $sortBy = $validated['sort_by'] ?? 'created_at';
@@ -32,6 +35,8 @@ class TaskController extends Controller
 
     public function store(TaskRequest $request)
     {
+        $this->authorize('create', Task::class);
+        
         $validated = $request->validated();
 
         $task = $request->user()->tasks()->create($validated);
@@ -58,7 +63,7 @@ class TaskController extends Controller
         return new TaskResource($task);
     }
 
-    public function destroy(Request $request, Task $task)
+    public function destroy( Task $task)
     {
         $this->authorize('delete', $task);
 

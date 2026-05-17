@@ -26,7 +26,7 @@ class IndexTaskRequest extends FormRequest
             'per_page' => ['integer', 'min:1', 'max:100'],
             'page' => ['integer', 'min:1'],
             'search' => ['string', 'nullable', 'max:255'],
-            'status' => ['string', 'nullable', 'in:pending,in_progress,completed'],
+            'status' => ['string', 'nullable', 'in:pending,in_progress,done'],
             'sort_by' => ['string', 'in:created_at,updated_at,title,status,due_date'],
             'sort_order' => ['string', 'in:asc,desc'],
         ];

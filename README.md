@@ -1,58 +1,88 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Task Manager API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A lightweight Laravel-based REST API for managing tasks and users. This repository contains the API backend for a personal task manager application used for learning and as a starting point for small projects.
 
-## About Laravel
+## What's included
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- API endpoints for creating, listing, updating, and deleting tasks.
+- Eloquent models: `User`, `Task`.
+- Policies and request validation for task operations.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Quickstart
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Prerequisites:
 
-## Learning Laravel
+- PHP 8.1+ (or compatible version)
+- Composer
+- A database (MySQL, PostgreSQL, SQLite)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+Install dependencies:
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+composer install
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Copy the environment file and set credentials:
+
+```bash
+cp .env.example .env
+# then edit .env to set DB_*, APP_URL, and other values
+```
+
+Generate an application key and run migrations:
+
+```bash
+php artisan key:generate
+php artisan migrate
+```
+
+Run the local server:
+
+```bash
+php artisan serve
+```
+
+Run tests:
+
+```bash
+./vendor/bin/pest
+```
+
+## Environment notes
+
+- Use `DB_CONNECTION`, `DB_HOST`, `DB_DATABASE`, `DB_USERNAME`, and `DB_PASSWORD` in `.env`.
+- For quick local testing, set `DB_CONNECTION=sqlite` and point `DB_DATABASE` to `database/database.sqlite`.
+
+## API overview
+
+Base URL: `http://localhost:8000/api`
+
+Authentication: The project uses Laravel Sanctum for API authentication (see `config/sanctum.php`).
+
+Common endpoints:
+
+- `POST /api/login` — authenticate and receive a token.
+- `POST /api/register` — create a new user.
+- `GET /api/tasks` — list tasks for the authenticated user.
+- `POST /api/tasks` — create a new task.
+- `GET /api/tasks/{id}` — view a task.
+- `PUT /api/tasks/{id}` — update a task.
+- `DELETE /api/tasks/{id}` — delete a task.
+
+Refer to the `app/Http/Controllers` and `routes/api.php` for exact route definitions and behavior.
 
 ## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+If you want to contribute:
 
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+1. Fork the repository.
+2. Create a feature branch.
+3. Open a pull request with a clear description of changes.
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is distributed under the MIT License. See the `LICENSE` file if present.
+
+---
+
+Updated README to include project-specific setup and API overview.
