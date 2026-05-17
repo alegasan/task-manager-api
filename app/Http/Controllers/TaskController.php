@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Task\IndexTaskRequest;
 use App\Http\Requests\Task\TaskRequest;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
@@ -9,13 +10,23 @@ use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    public function index(Request $request)
+    public function index(IndexTaskRequest $request)
     {
+        $validated = $request->validated();
+
+        $perPage = $validated['per_page'] ?? 10;
+        $search = $validated['search'] ?? null;
+        $status = $validated['status'] ?? null;
+        $sortBy = $validated['sort_by'] ?? 'created_at';
+        $sortOrder = $validated['sort_order'] ?? 'desc';
+
         $tasks = $request->user()
             ->tasks()
-            ->latest()
-            ->get();
-    
+            ->search($search)
+            ->filterByStatus($status)
+            ->sortBy($sortBy, $sortOrder)
+            ->paginate($perPage);
+
         return TaskResource::collection($tasks);
     }
 
