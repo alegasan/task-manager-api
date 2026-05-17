@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use App\Models\User;
 
-#[Fillable(['user_id', 'title', 'description', 'status', 'due_date'])]
+#[Fillable(['user_id', 'title', 'description', 'status', 'due_date', 'priority'])]
 class Task extends Model
 {
     /**
@@ -49,12 +49,21 @@ class Task extends Model
         return $query->where('status', $status);
     }
 
+    public function scopeFilterByPriority(Builder $query, ?string $priority = null): Builder
+    {
+        if (!$priority) {
+            return $query;
+        }
+
+        return $query->where('priority', $priority);
+    }
+
     /**
      * Scope: Sort tasks by field
      */
     public function scopeSortBy(Builder $query, string $field = 'created_at', string $direction = 'desc'): Builder
     {
-        $allowedFields = ['created_at', 'updated_at', 'title', 'status', 'due_date'];
+        $allowedFields = ['created_at', 'updated_at', 'title', 'status', 'due_date', 'priority'];
 
         if (!in_array($field, $allowedFields)) {
             $field = 'created_at';

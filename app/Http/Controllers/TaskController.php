@@ -20,6 +20,7 @@ class TaskController extends Controller
         $perPage = $validated['per_page'] ?? 5;
         $search = $validated['search'] ?? null;
         $status = $validated['status'] ?? null;
+        $priority = $validated['priority'] ?? null;
         $sortBy = $validated['sort_by'] ?? 'created_at';
         $sortOrder = $validated['sort_order'] ?? 'desc';
 
@@ -27,6 +28,7 @@ class TaskController extends Controller
             ->tasks()
             ->search($search)
             ->filterByStatus($status)
+            ->filterByPriority($priority)
             ->sortBy($sortBy, $sortOrder)
             ->paginate($perPage);
 
