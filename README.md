@@ -72,5 +72,3 @@ Common endpoints:
 Refer to the `app/Http/Controllers` and `routes/api.php` for exact route definitions and behavior.
 
 ---
-
-Updated README to include project-specific setup and API overview.
